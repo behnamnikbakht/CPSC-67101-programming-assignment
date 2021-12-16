@@ -32,9 +32,9 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:h2:file:./target/h2db/db/shopping;DB_CLOSE_DELAY=-1
-    username: shopping
-    password:
+    url: jdbc:mysql://localhost:3306/shopping?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+    username: behnam
+    password: behnam
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -43,7 +43,8 @@ spring:
       # disable spring boot built-in h2-console since we start it manually with correct configuration
       enabled: false
   jpa:
-    database-platform: tech.jhipster.domain.util.FixedH2Dialect
+    hibernate:
+      ddl-auto: update
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker

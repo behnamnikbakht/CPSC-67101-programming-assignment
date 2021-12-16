@@ -21,6 +21,18 @@
                                  referencedTableName="item"/>
 
         <addForeignKeyConstraint baseColumnNames="person_id"
+                                 baseTableName="rel_person__sells"
+                                 constraintName="rel_person__sells__person_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="person"/>
+
+        <addForeignKeyConstraint baseColumnNames="sells_id"
+                                 baseTableName="rel_person__sells"
+                                 constraintName="rel_person__sells__sells_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="item"/>
+
+        <addForeignKeyConstraint baseColumnNames="person_id"
                                  baseTableName="rel_person__subscriptions"
                                  constraintName="fk_rel_person__subscriptions__person_id"
                                  referencedColumnNames="id"
@@ -32,16 +44,5 @@
                                  referencedColumnNames="id"
                                  referencedTableName="shopping_group"/>
 
-        <addForeignKeyConstraint baseColumnNames="person_id"
-                                 baseTableName="rel_person__joined"
-                                 constraintName="fk_rel_person__joined__person_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="person"/>
-
-        <addForeignKeyConstraint baseColumnNames="joined_id"
-                                 baseTableName="rel_person__joined"
-                                 constraintName="fk_rel_person__joined__joined_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="shopping_group"/>
     </changeSet>
 </databaseChangeLog>

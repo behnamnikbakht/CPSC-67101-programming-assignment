@@ -55,8 +55,8 @@
 
         <addPrimaryKey columnNames="person_id, subscriptions_id" tableName="rel_person__subscriptions"/>
 
-        <createTable tableName="rel_person__joined">
-            <column name="joined_id" type="bigint">
+        <createTable tableName="rel_person__sells">
+            <column name="sells_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
             <column name="person_id" type="bigint">
@@ -64,7 +64,8 @@
             </column>
         </createTable>
 
-        <addPrimaryKey columnNames="person_id, joined_id" tableName="rel_person__joined"/>
+        <addPrimaryKey columnNames="person_id, sells_id" tableName="rel_person__sells"/>
+
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
