@@ -13,7 +13,6 @@ export interface IPerson {
   items?: IItem[] | null;
   interests?: IItem[] | null;
   subscriptions?: IShoppingGroup[] | null;
-  joineds?: IShoppingGroup[] | null;
 }
 
 export const defaultValue: Readonly<IPerson> = {};
