@@ -50,7 +50,6 @@ relationship ManyToOne {
 relationship ManyToMany {
 	Person{interests} to Item{interestedPersons}
     Person{subscriptions} to ShoppingGroup{subscribedPersons}
-    Person{joined} to ShoppingGroup{joinedPersons}
 }
 
 
