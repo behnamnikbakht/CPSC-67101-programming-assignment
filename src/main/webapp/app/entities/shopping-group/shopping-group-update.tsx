@@ -58,11 +58,14 @@ export const ShoppingGroupUpdate = (props: RouteComponentProps<{ id: string }>) 
     }
   };
 
+  const account = useAppSelector(state => state.authentication.account);
+
   const defaultValues = () =>
     isNew
       ? {
           createdAt: displayDefaultDateTime(),
-        }
+          createdBy: account?.id,
+      }
       : {
           ...shoppingGroupEntity,
           createdAt: convertDateTimeFromServer(shoppingGroupEntity.createdAt),
@@ -126,7 +129,7 @@ export const ShoppingGroupUpdate = (props: RouteComponentProps<{ id: string }>) 
                 {people
                   ? people.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.id}
+                        {otherEntity.name}
                       </option>
                     ))
                   : null}

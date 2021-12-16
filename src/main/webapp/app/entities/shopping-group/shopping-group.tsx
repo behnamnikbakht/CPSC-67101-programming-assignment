@@ -128,7 +128,7 @@ export const ShoppingGroup = (props: RouteComponentProps<{ url: string }>) => {
                     {shoppingGroup.createdAt ? <TextFormat type="date" value={shoppingGroup.createdAt} format={APP_DATE_FORMAT} /> : null}
                   </td>
                   <td>
-                    {shoppingGroup.createdBy ? <Link to={`person/${shoppingGroup.createdBy.id}`}>{shoppingGroup.createdBy.id}</Link> : ''}
+                    {shoppingGroup.createdBy ? <Link to={`person/${shoppingGroup.createdBy.id}`}>{shoppingGroup.createdBy.name}</Link> : ''}
                   </td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
