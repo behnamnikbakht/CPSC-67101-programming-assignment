@@ -132,8 +132,8 @@ export const Need = (props: RouteComponentProps<{ url: string }>) => {
                   <td>{need.createdAt ? <TextFormat type="date" value={need.createdAt} format={APP_DATE_FORMAT} /> : null}</td>
                   <td>{need.quantity}</td>
                   <td>{need.deadline ? <TextFormat type="date" value={need.deadline} format={APP_DATE_FORMAT} /> : null}</td>
-                  <td>{need.person ? <Link to={`person/${need.person.id}`}>{need.person.id}</Link> : ''}</td>
-                  <td>{need.item ? <Link to={`item/${need.item.id}`}>{need.item.id}</Link> : ''}</td>
+                  <td>{need.person ? <Link to={`person/${need.person.id}`}>{need.person.name}</Link> : ''}</td>
+                  <td>{need.item ? <Link to={`item/${need.item.id}`}>{need.item.name}</Link> : ''}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${need.id}`} color="info" size="sm" data-cy="entityDetailsButton">
