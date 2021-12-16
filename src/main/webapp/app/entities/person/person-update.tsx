@@ -55,7 +55,6 @@ export const PersonUpdate = (props: RouteComponentProps<{ id: string }>) => {
       ...personEntity,
       ...values,
       subscriptions: mapIdList(values.subscriptions),
-      joineds: mapIdList(values.joineds),
       interests: mapIdList(values.interests),
     };
 
@@ -77,7 +76,6 @@ export const PersonUpdate = (props: RouteComponentProps<{ id: string }>) => {
           createdAt: convertDateTimeFromServer(personEntity.createdAt),
           interests: personEntity?.interests?.map(e => e.id.toString()),
           subscriptions: personEntity?.subscriptions?.map(e => e.id.toString()),
-          joineds: personEntity?.joineds?.map(e => e.id.toString()),
         };
 
   return (
@@ -146,7 +144,7 @@ export const PersonUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 {items
                   ? items.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.id}
+                        {otherEntity.name}
                       </option>
                     ))
                   : null}
@@ -163,24 +161,7 @@ export const PersonUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 {shoppingGroups
                   ? shoppingGroups.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.id}
-                      </option>
-                    ))
-                  : null}
-              </ValidatedField>
-              <ValidatedField
-                label={translate('shoppingApp.person.joined')}
-                id="person-joined"
-                data-cy="joined"
-                type="select"
-                multiple
-                name="joineds"
-              >
-                <option value="" key="0" />
-                {shoppingGroups
-                  ? shoppingGroups.map(otherEntity => (
-                      <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.id}
+                        {otherEntity.name}
                       </option>
                     ))
                   : null}

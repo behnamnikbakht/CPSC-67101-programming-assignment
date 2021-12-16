@@ -60,7 +60,7 @@ export const PersonDetail = (props: RouteComponentProps<{ id: string }>) => {
             {personEntity.interests
               ? personEntity.interests.map((val, i) => (
                   <span key={val.id}>
-                    <a>{val.id}</a>
+                    <a>{val.name}</a>
                     {personEntity.interests && i === personEntity.interests.length - 1 ? '' : ', '}
                   </span>
                 ))
@@ -73,21 +73,8 @@ export const PersonDetail = (props: RouteComponentProps<{ id: string }>) => {
             {personEntity.subscriptions
               ? personEntity.subscriptions.map((val, i) => (
                   <span key={val.id}>
-                    <a>{val.id}</a>
+                    <a>{val.name}</a>
                     {personEntity.subscriptions && i === personEntity.subscriptions.length - 1 ? '' : ', '}
-                  </span>
-                ))
-              : null}
-          </dd>
-          <dt>
-            <Translate contentKey="shoppingApp.person.joined">Joined</Translate>
-          </dt>
-          <dd>
-            {personEntity.joineds
-              ? personEntity.joineds.map((val, i) => (
-                  <span key={val.id}>
-                    <a>{val.id}</a>
-                    {personEntity.joineds && i === personEntity.joineds.length - 1 ? '' : ', '}
                   </span>
                 ))
               : null}
