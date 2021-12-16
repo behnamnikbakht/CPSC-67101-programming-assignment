@@ -53,11 +53,9 @@ public class CacheConfiguration {
             createCache(cm, ca.ucalgary.assignment.domain.Person.class.getName() + ".items");
             createCache(cm, ca.ucalgary.assignment.domain.Person.class.getName() + ".interests");
             createCache(cm, ca.ucalgary.assignment.domain.Person.class.getName() + ".subscriptions");
-            createCache(cm, ca.ucalgary.assignment.domain.Person.class.getName() + ".joineds");
             createCache(cm, ca.ucalgary.assignment.domain.ShoppingGroup.class.getName());
             createCache(cm, ca.ucalgary.assignment.domain.ShoppingGroup.class.getName() + ".items");
             createCache(cm, ca.ucalgary.assignment.domain.ShoppingGroup.class.getName() + ".subscribedPersons");
-            createCache(cm, ca.ucalgary.assignment.domain.ShoppingGroup.class.getName() + ".joinedPersons");
             createCache(cm, ca.ucalgary.assignment.domain.Need.class.getName());
             createCache(cm, ca.ucalgary.assignment.domain.Item.class.getName());
             createCache(cm, ca.ucalgary.assignment.domain.Item.class.getName() + ".interestedPersons");

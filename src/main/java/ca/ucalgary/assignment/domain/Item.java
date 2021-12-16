@@ -45,17 +45,22 @@ public class Item implements Serializable {
     private ItemState state;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "items", "createdBy", "subscribedPersons", "joinedPersons" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "items", "createdBy", "subscribedPersons" }, allowSetters = true)
     private ShoppingGroup group;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "shoppingGroups", "items", "interests", "subscriptions", "joineds" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "shoppingGroups", "items", "interests", "subscriptions", "sells" }, allowSetters = true)
     private Person owner;
 
     @ManyToMany(mappedBy = "interests")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "shoppingGroups", "items", "interests", "subscriptions", "joineds" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "shoppingGroups", "items", "interests", "subscriptions", "sells" }, allowSetters = true)
     private Set<Person> interestedPersons = new HashSet<>();
+
+    @ManyToMany(mappedBy = "sells")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "shoppingGroups", "items", "interests", "subscriptions", "sells" }, allowSetters = true)
+    private Set<Person> sellerPersons = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -191,6 +196,37 @@ public class Item implements Serializable {
     public Item removeInterestedPersons(Person person) {
         this.interestedPersons.remove(person);
         person.getInterests().remove(this);
+        return this;
+    }
+
+    public Set<Person> getSellerPersons() {
+        return this.sellerPersons;
+    }
+
+    public void setSellerPersons(Set<Person> people) {
+        if (this.sellerPersons != null) {
+            this.sellerPersons.forEach(i -> i.removeSeller(this));
+        }
+        if (people != null) {
+            people.forEach(i -> i.addSeller(this));
+        }
+        this.sellerPersons = people;
+    }
+
+    public Item sellerPersons(Set<Person> people) {
+        this.setSellerPersons(people);
+        return this;
+    }
+
+    public Item addSellerPersons(Person person) {
+        this.sellerPersons.add(person);
+        person.getSells().add(this);
+        return this;
+    }
+
+    public Item removeSellerPersons(Person person) {
+        this.sellerPersons.remove(person);
+        person.getSells().remove(this);
         return this;
     }
 

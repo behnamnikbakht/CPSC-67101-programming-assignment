@@ -35,7 +35,7 @@ public class Need implements Serializable {
     private Instant deadline;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "shoppingGroups", "items", "interests", "subscriptions", "joineds" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "shoppingGroups", "items", "interests", "subscriptions"}, allowSetters = true)
     private Person person;
 
     @ManyToOne

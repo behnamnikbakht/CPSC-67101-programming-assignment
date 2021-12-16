@@ -39,18 +39,13 @@ public class ShoppingGroup implements Serializable {
     private Set<Item> items = new HashSet<>();
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "shoppingGroups", "items", "interests", "subscriptions", "joineds" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "shoppingGroups", "items", "interests", "subscriptions" }, allowSetters = true)
     private Person createdBy;
 
     @ManyToMany(mappedBy = "subscriptions")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "shoppingGroups", "items", "interests", "subscriptions", "joineds" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "shoppingGroups", "items", "interests", "subscriptions" }, allowSetters = true)
     private Set<Person> subscribedPersons = new HashSet<>();
-
-    @ManyToMany(mappedBy = "joineds")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "shoppingGroups", "items", "interests", "subscriptions", "joineds" }, allowSetters = true)
-    private Set<Person> joinedPersons = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -165,37 +160,6 @@ public class ShoppingGroup implements Serializable {
     public ShoppingGroup removeSubscribedPersons(Person person) {
         this.subscribedPersons.remove(person);
         person.getSubscriptions().remove(this);
-        return this;
-    }
-
-    public Set<Person> getJoinedPersons() {
-        return this.joinedPersons;
-    }
-
-    public void setJoinedPersons(Set<Person> people) {
-        if (this.joinedPersons != null) {
-            this.joinedPersons.forEach(i -> i.removeJoined(this));
-        }
-        if (people != null) {
-            people.forEach(i -> i.addJoined(this));
-        }
-        this.joinedPersons = people;
-    }
-
-    public ShoppingGroup joinedPersons(Set<Person> people) {
-        this.setJoinedPersons(people);
-        return this;
-    }
-
-    public ShoppingGroup addJoinedPersons(Person person) {
-        this.joinedPersons.add(person);
-        person.getJoineds().add(this);
-        return this;
-    }
-
-    public ShoppingGroup removeJoinedPersons(Person person) {
-        this.joinedPersons.remove(person);
-        person.getJoineds().remove(this);
         return this;
     }
 

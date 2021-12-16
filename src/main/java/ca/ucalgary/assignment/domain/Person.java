@@ -43,7 +43,7 @@ public class Person implements Serializable {
 
     @OneToMany(mappedBy = "createdBy")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "items", "createdBy", "subscribedPersons", "joinedPersons" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "items", "createdBy", "subscribedPersons" }, allowSetters = true)
     private Set<ShoppingGroup> shoppingGroups = new HashSet<>();
 
     @OneToMany(mappedBy = "owner")
@@ -61,6 +61,18 @@ public class Person implements Serializable {
     @JsonIgnoreProperties(value = { "group", "owner", "interestedPersons" }, allowSetters = true)
     private Set<Item> interests = new HashSet<>();
 
+
+    @ManyToMany
+    @JoinTable(
+        name = "rel_person__sells",
+        joinColumns = @JoinColumn(name = "person_id"),
+        inverseJoinColumns = @JoinColumn(name = "sells_id")
+    )
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "group", "owner", "interestedPersons", "sellerPersons" }, allowSetters = true)
+    private Set<Item> sells = new HashSet<>();
+
+
     @ManyToMany
     @JoinTable(
         name = "rel_person__subscriptions",
@@ -70,16 +82,6 @@ public class Person implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "items", "createdBy", "subscribedPersons", "joinedPersons" }, allowSetters = true)
     private Set<ShoppingGroup> subscriptions = new HashSet<>();
-
-    @ManyToMany
-    @JoinTable(
-        name = "rel_person__joined",
-        joinColumns = @JoinColumn(name = "person_id"),
-        inverseJoinColumns = @JoinColumn(name = "joined_id")
-    )
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "items", "createdBy", "subscribedPersons", "joinedPersons" }, allowSetters = true)
-    private Set<ShoppingGroup> joineds = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -235,6 +237,31 @@ public class Person implements Serializable {
         return this;
     }
 
+    public Set<Item> getSells() {
+        return this.sells;
+    }
+
+    public void setSells(Set<Item> items) {
+        this.sells = items;
+    }
+
+    public Person sells(Set<Item> items) {
+        this.setSells(items);
+        return this;
+    }
+
+    public Person addSeller(Item item) {
+        this.sells.add(item);
+        item.getSellerPersons().add(this);
+        return this;
+    }
+
+    public Person removeSeller(Item item) {
+        this.sells.remove(item);
+        item.getSellerPersons().remove(this);
+        return this;
+    }
+
     public Set<ShoppingGroup> getSubscriptions() {
         return this.subscriptions;
     }
@@ -257,31 +284,6 @@ public class Person implements Serializable {
     public Person removeSubscriptions(ShoppingGroup shoppingGroup) {
         this.subscriptions.remove(shoppingGroup);
         shoppingGroup.getSubscribedPersons().remove(this);
-        return this;
-    }
-
-    public Set<ShoppingGroup> getJoineds() {
-        return this.joineds;
-    }
-
-    public void setJoineds(Set<ShoppingGroup> shoppingGroups) {
-        this.joineds = shoppingGroups;
-    }
-
-    public Person joineds(Set<ShoppingGroup> shoppingGroups) {
-        this.setJoineds(shoppingGroups);
-        return this;
-    }
-
-    public Person addJoined(ShoppingGroup shoppingGroup) {
-        this.joineds.add(shoppingGroup);
-        shoppingGroup.getJoinedPersons().add(this);
-        return this;
-    }
-
-    public Person removeJoined(ShoppingGroup shoppingGroup) {
-        this.joineds.remove(shoppingGroup);
-        shoppingGroup.getJoinedPersons().remove(this);
         return this;
     }
 
