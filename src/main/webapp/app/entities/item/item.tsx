@@ -142,8 +142,8 @@ export const Item = (props: RouteComponentProps<{ url: string }>) => {
                   <td>
                     <Translate contentKey={`shoppingApp.ItemState.${item.state}`} />
                   </td>
-                  <td>{item.group ? <Link to={`shopping-group/${item.group.id}`}>{item.group.id}</Link> : ''}</td>
-                  <td>{item.owner ? <Link to={`person/${item.owner.id}`}>{item.owner.id}</Link> : ''}</td>
+                  <td>{item.group ? <Link to={`shopping-group/${item.group.id}`}>{item.group.name}</Link> : ''}</td>
+                  <td>{item.owner ? <Link to={`person/${item.owner.id}`}>{item.owner.name}</Link> : ''}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${item.id}`} color="info" size="sm" data-cy="entityDetailsButton">
