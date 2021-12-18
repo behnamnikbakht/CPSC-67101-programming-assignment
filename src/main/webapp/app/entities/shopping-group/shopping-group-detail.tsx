@@ -48,7 +48,7 @@ export const ShoppingGroupDetail = (props: RouteComponentProps<{ id: string }>) 
           <dt>
             <Translate contentKey="shoppingApp.shoppingGroup.createdBy">Created By</Translate>
           </dt>
-          <dd>{shoppingGroupEntity.createdBy ? shoppingGroupEntity.createdBy.name : ''}</dd>
+          <dd>{shoppingGroupEntity.createdBy ? shoppingGroupEntity.createdBy.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/shopping-group" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

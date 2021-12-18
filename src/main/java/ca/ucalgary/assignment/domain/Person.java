@@ -1,13 +1,10 @@
 package ca.ucalgary.assignment.domain;
 
-import ca.ucalgary.assignment.domain.enumeration.PersonRole;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -26,20 +23,9 @@ public class Person implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @NotNull
-    @Column(name = "username", nullable = false)
-    private String username;
-
-    @Column(name = "name")
-    private String name;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role")
-    private PersonRole role;
-
-    @NotNull
-    @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
+    @OneToOne
+    @JoinColumn(unique = true)
+    private User person;
 
     @OneToMany(mappedBy = "createdBy")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -48,7 +34,7 @@ public class Person implements Serializable {
 
     @OneToMany(mappedBy = "owner")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "group", "owner", "interestedPersons" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "group", "owner", "interestedPersons", "sellerPersons" }, allowSetters = true)
     private Set<Item> items = new HashSet<>();
 
     @ManyToMany
@@ -58,9 +44,18 @@ public class Person implements Serializable {
         inverseJoinColumns = @JoinColumn(name = "interests_id")
     )
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "group", "owner", "interestedPersons" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "group", "owner", "interestedPersons", "sellerPersons" }, allowSetters = true)
     private Set<Item> interests = new HashSet<>();
 
+    @ManyToMany
+    @JoinTable(
+        name = "rel_person__subscriptions",
+        joinColumns = @JoinColumn(name = "person_id"),
+        inverseJoinColumns = @JoinColumn(name = "subscriptions_id")
+    )
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "items", "createdBy", "subscribedPersons" }, allowSetters = true)
+    private Set<ShoppingGroup> subscriptions = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
@@ -71,17 +66,6 @@ public class Person implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "group", "owner", "interestedPersons", "sellerPersons" }, allowSetters = true)
     private Set<Item> sells = new HashSet<>();
-
-
-    @ManyToMany
-    @JoinTable(
-        name = "rel_person__subscriptions",
-        joinColumns = @JoinColumn(name = "person_id"),
-        inverseJoinColumns = @JoinColumn(name = "subscriptions_id")
-    )
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "items", "createdBy", "subscribedPersons", "joinedPersons" }, allowSetters = true)
-    private Set<ShoppingGroup> subscriptions = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -98,56 +82,17 @@ public class Person implements Serializable {
         this.id = id;
     }
 
-    public String getUsername() {
-        return this.username;
+    public User getPerson() {
+        return this.person;
     }
 
-    public Person username(String username) {
-        this.setUsername(username);
+    public void setPerson(User user) {
+        this.person = user;
+    }
+
+    public Person person(User user) {
+        this.setPerson(user);
         return this;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public Person name(String name) {
-        this.setName(name);
-        return this;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public PersonRole getRole() {
-        return this.role;
-    }
-
-    public Person role(PersonRole role) {
-        this.setRole(role);
-        return this;
-    }
-
-    public void setRole(PersonRole role) {
-        this.role = role;
-    }
-
-    public Instant getCreatedAt() {
-        return this.createdAt;
-    }
-
-    public Person createdAt(Instant createdAt) {
-        this.setCreatedAt(createdAt);
-        return this;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
     }
 
     public Set<ShoppingGroup> getShoppingGroups() {
@@ -237,31 +182,6 @@ public class Person implements Serializable {
         return this;
     }
 
-    public Set<Item> getSells() {
-        return this.sells;
-    }
-
-    public void setSells(Set<Item> items) {
-        this.sells = items;
-    }
-
-    public Person sells(Set<Item> items) {
-        this.setSells(items);
-        return this;
-    }
-
-    public Person addSeller(Item item) {
-        this.sells.add(item);
-        item.getSellerPersons().add(this);
-        return this;
-    }
-
-    public Person removeSeller(Item item) {
-        this.sells.remove(item);
-        item.getSellerPersons().remove(this);
-        return this;
-    }
-
     public Set<ShoppingGroup> getSubscriptions() {
         return this.subscriptions;
     }
@@ -284,6 +204,31 @@ public class Person implements Serializable {
     public Person removeSubscriptions(ShoppingGroup shoppingGroup) {
         this.subscriptions.remove(shoppingGroup);
         shoppingGroup.getSubscribedPersons().remove(this);
+        return this;
+    }
+
+    public Set<Item> getSells() {
+        return this.sells;
+    }
+
+    public void setSells(Set<Item> items) {
+        this.sells = items;
+    }
+
+    public Person sells(Set<Item> items) {
+        this.setSells(items);
+        return this;
+    }
+
+    public Person addSells(Item item) {
+        this.sells.add(item);
+        item.getSellerPersons().add(this);
+        return this;
+    }
+
+    public Person removeSells(Item item) {
+        this.sells.remove(item);
+        item.getSellerPersons().remove(this);
         return this;
     }
 
@@ -311,10 +256,6 @@ public class Person implements Serializable {
     public String toString() {
         return "Person{" +
             "id=" + getId() +
-            ", username='" + getUsername() + "'" +
-            ", name='" + getName() + "'" +
-            ", role='" + getRole() + "'" +
-            ", createdAt='" + getCreatedAt() + "'" +
             "}";
     }
 }

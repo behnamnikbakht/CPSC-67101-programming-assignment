@@ -71,7 +71,6 @@ export const ItemUpdate = (props: RouteComponentProps<{ id: string }>) => {
     isNew
       ? {
           createdAt: displayDefaultDateTime(),
-          owner: account?.id,
         }
       : {
           state: 'AVAILABLE',
@@ -157,7 +156,7 @@ export const ItemUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 {people
                   ? people.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.name}
+                        {otherEntity.person.login}
                       </option>
                     ))
                   : null}

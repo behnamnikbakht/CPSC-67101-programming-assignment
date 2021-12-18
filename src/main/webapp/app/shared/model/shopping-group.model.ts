@@ -9,7 +9,6 @@ export interface IShoppingGroup {
   items?: IItem[] | null;
   createdBy?: IPerson | null;
   subscribedPersons?: IPerson[] | null;
-  joinedPersons?: IPerson[] | null;
 }
 
 export const defaultValue: Readonly<IShoppingGroup> = {};

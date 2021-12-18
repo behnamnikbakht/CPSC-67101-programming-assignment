@@ -22,8 +22,7 @@
       "createdAt": "Created At",
       "item": "Item",
       "createdBy": "Created By",
-      "subscribedPersons": "Subscribed Persons",
-      "joinedPersons": "Joined Persons"
+      "subscribedPersons": "Subscribed Persons"
     }
   }
 }

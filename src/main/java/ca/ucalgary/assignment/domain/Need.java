@@ -35,11 +35,11 @@ public class Need implements Serializable {
     private Instant deadline;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "shoppingGroups", "items", "interests", "subscriptions"}, allowSetters = true)
+    @JsonIgnoreProperties(value = { "person", "shoppingGroups", "items", "interests", "subscriptions", "sells" }, allowSetters = true)
     private Person person;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "group", "owner", "interestedPersons" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "group", "owner", "interestedPersons", "sellerPersons" }, allowSetters = true)
     private Item item;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

@@ -15,18 +15,18 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Long> {
     @Query(
-        value = "select distinct person from Person person left join fetch person.interests left join fetch person.subscriptions ",
+        value = "select distinct person from Person person left join fetch person.interests left join fetch person.subscriptions left join fetch person.sells",
         countQuery = "select count(distinct person) from Person person"
     )
     Page<Person> findAllWithEagerRelationships(Pageable pageable);
 
     @Query(
-        "select distinct person from Person person left join fetch person.interests left join fetch person.subscriptions "
+        "select distinct person from Person person left join fetch person.interests left join fetch person.subscriptions left join fetch person.sells"
     )
     List<Person> findAllWithEagerRelationships();
 
     @Query(
-        "select person from Person person left join fetch person.interests left join fetch person.subscriptions where person.id =:id"
+        "select person from Person person left join fetch person.interests left join fetch person.subscriptions left join fetch person.sells where person.id =:id"
     )
     Optional<Person> findOneWithEagerRelationships(@Param("id") Long id);
 }

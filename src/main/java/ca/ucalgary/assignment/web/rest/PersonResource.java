@@ -9,8 +9,6 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -56,7 +54,7 @@ public class PersonResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/people")
-    public ResponseEntity<Person> createPerson(@Valid @RequestBody Person person) throws URISyntaxException {
+    public ResponseEntity<Person> createPerson(@RequestBody Person person) throws URISyntaxException {
         log.debug("REST request to save Person : {}", person);
         if (person.getId() != null) {
             throw new BadRequestAlertException("A new person cannot already have an ID", ENTITY_NAME, "idexists");
@@ -79,10 +77,8 @@ public class PersonResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/people/{id}")
-    public ResponseEntity<Person> updatePerson(
-        @PathVariable(value = "id", required = false) final Long id,
-        @Valid @RequestBody Person person
-    ) throws URISyntaxException {
+    public ResponseEntity<Person> updatePerson(@PathVariable(value = "id", required = false) final Long id, @RequestBody Person person)
+        throws URISyntaxException {
         log.debug("REST request to update Person : {}, {}", id, person);
         if (person.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -116,7 +112,7 @@ public class PersonResource {
     @PatchMapping(value = "/people/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<Person> partialUpdatePerson(
         @PathVariable(value = "id", required = false) final Long id,
-        @NotNull @RequestBody Person person
+        @RequestBody Person person
     ) throws URISyntaxException {
         log.debug("REST request to partial update Person partially : {}, {}", id, person);
         if (person.getId() == null) {

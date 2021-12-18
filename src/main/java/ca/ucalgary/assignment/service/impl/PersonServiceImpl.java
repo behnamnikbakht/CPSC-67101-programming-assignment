@@ -39,19 +39,6 @@ public class PersonServiceImpl implements PersonService {
         return personRepository
             .findById(person.getId())
             .map(existingPerson -> {
-                if (person.getUsername() != null) {
-                    existingPerson.setUsername(person.getUsername());
-                }
-                if (person.getName() != null) {
-                    existingPerson.setName(person.getName());
-                }
-                if (person.getRole() != null) {
-                    existingPerson.setRole(person.getRole());
-                }
-                if (person.getCreatedAt() != null) {
-                    existingPerson.setCreatedAt(person.getCreatedAt());
-                }
-
                 return existingPerson;
             })
             .map(personRepository::save);

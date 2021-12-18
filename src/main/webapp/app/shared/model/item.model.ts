@@ -13,6 +13,7 @@ export interface IItem {
   group?: IShoppingGroup | null;
   owner?: IPerson | null;
   interestedPersons?: IPerson[] | null;
+  sellerPersons?: IPerson[] | null;
 }
 
 export const defaultValue: Readonly<IItem> = {};

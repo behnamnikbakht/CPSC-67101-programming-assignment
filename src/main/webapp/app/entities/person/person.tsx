@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
-import { Translate, TextFormat, getSortState, JhiPagination, JhiItemCount } from 'react-jhipster';
+import { Translate, getSortState, JhiPagination, JhiItemCount } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { getEntities } from './person.reducer';
@@ -103,17 +103,8 @@ export const Person = (props: RouteComponentProps<{ url: string }>) => {
                 <th className="hand" onClick={sort('id')}>
                   <Translate contentKey="shoppingApp.person.id">ID</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={sort('username')}>
-                  <Translate contentKey="shoppingApp.person.username">Username</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
-                <th className="hand" onClick={sort('name')}>
-                  <Translate contentKey="shoppingApp.person.name">Name</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
-                <th className="hand" onClick={sort('role')}>
-                  <Translate contentKey="shoppingApp.person.role">Role</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
-                <th className="hand" onClick={sort('createdAt')}>
-                  <Translate contentKey="shoppingApp.person.createdAt">Created At</Translate> <FontAwesomeIcon icon="sort" />
+                <th>
+                  <Translate contentKey="shoppingApp.person.person">Person</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th />
               </tr>
@@ -126,12 +117,7 @@ export const Person = (props: RouteComponentProps<{ url: string }>) => {
                       {person.id}
                     </Button>
                   </td>
-                  <td>{person.username}</td>
-                  <td>{person.name}</td>
-                  <td>
-                    <Translate contentKey={`shoppingApp.PersonRole.${person.role}`} />
-                  </td>
-                  <td>{person.createdAt ? <TextFormat type="date" value={person.createdAt} format={APP_DATE_FORMAT} /> : null}</td>
+                  <td>{person.person ? person.person.login : ''}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${person.id}`} color="info" size="sm" data-cy="entityDetailsButton">

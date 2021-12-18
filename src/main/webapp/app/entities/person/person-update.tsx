@@ -4,6 +4,8 @@ import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { IUser } from 'app/shared/model/user.model';
+import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
 import { IShoppingGroup } from 'app/shared/model/shopping-group.model';
 import { getEntities as getShoppingGroups } from 'app/entities/shopping-group/shopping-group.reducer';
 import { IItem } from 'app/shared/model/item.model';
@@ -13,20 +15,19 @@ import { IPerson } from 'app/shared/model/person.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { PersonRole } from 'app/shared/model/enumerations/person-role.model';
 
 export const PersonUpdate = (props: RouteComponentProps<{ id: string }>) => {
   const dispatch = useAppDispatch();
 
   const [isNew] = useState(!props.match.params || !props.match.params.id);
 
+  const users = useAppSelector(state => state.userManagement.users);
   const shoppingGroups = useAppSelector(state => state.shoppingGroup.entities);
   const items = useAppSelector(state => state.item.entities);
   const personEntity = useAppSelector(state => state.person.entity);
   const loading = useAppSelector(state => state.person.loading);
   const updating = useAppSelector(state => state.person.updating);
   const updateSuccess = useAppSelector(state => state.person.updateSuccess);
-  const personRoleValues = Object.keys(PersonRole);
   const handleClose = () => {
     props.history.push('/person' + props.location.search);
   };
@@ -38,6 +39,7 @@ export const PersonUpdate = (props: RouteComponentProps<{ id: string }>) => {
       dispatch(getEntity(props.match.params.id));
     }
 
+    dispatch(getUsers({}));
     dispatch(getShoppingGroups({}));
     dispatch(getItems({}));
   }, []);
@@ -49,13 +51,13 @@ export const PersonUpdate = (props: RouteComponentProps<{ id: string }>) => {
   }, [updateSuccess]);
 
   const saveEntity = values => {
-    values.createdAt = convertDateTimeToServer(values.createdAt);
-
     const entity = {
       ...personEntity,
       ...values,
       subscriptions: mapIdList(values.subscriptions),
       interests: mapIdList(values.interests),
+      sells: mapIdList(values.sells),
+      person: users.find(it => it.id.toString() === values.person.toString()),
     };
 
     if (isNew) {
@@ -67,15 +69,13 @@ export const PersonUpdate = (props: RouteComponentProps<{ id: string }>) => {
 
   const defaultValues = () =>
     isNew
-      ? {
-          createdAt: displayDefaultDateTime(),
-        }
+      ? {}
       : {
-          role: 'ADMIN',
           ...personEntity,
-          createdAt: convertDateTimeFromServer(personEntity.createdAt),
+          person: personEntity?.person?.id,
           interests: personEntity?.interests?.map(e => e.id.toString()),
           subscriptions: personEntity?.subscriptions?.map(e => e.id.toString()),
+          sells: personEntity?.sells?.map(e => e.id.toString()),
         };
 
   return (
@@ -104,34 +104,21 @@ export const PersonUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 />
               ) : null}
               <ValidatedField
-                label={translate('shoppingApp.person.username')}
-                id="person-username"
-                name="username"
-                data-cy="username"
-                type="text"
-                validate={{
-                  required: { value: true, message: translate('entity.validation.required') },
-                }}
-              />
-              <ValidatedField label={translate('shoppingApp.person.name')} id="person-name" name="name" data-cy="name" type="text" />
-              <ValidatedField label={translate('shoppingApp.person.role')} id="person-role" name="role" data-cy="role" type="select">
-                {personRoleValues.map(personRole => (
-                  <option value={personRole} key={personRole}>
-                    {translate('shoppingApp.PersonRole.' + personRole)}
-                  </option>
-                ))}
+                id="person-person"
+                name="person"
+                data-cy="person"
+                label={translate('shoppingApp.person.person')}
+                type="select"
+              >
+                <option value="" key="0" />
+                {users
+                  ? users.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.login}
+                      </option>
+                    ))
+                  : null}
               </ValidatedField>
-              <ValidatedField
-                label={translate('shoppingApp.person.createdAt')}
-                id="person-createdAt"
-                name="createdAt"
-                data-cy="createdAt"
-                type="datetime-local"
-                placeholder="YYYY-MM-DD HH:mm"
-                validate={{
-                  required: { value: true, message: translate('entity.validation.required') },
-                }}
-              />
               <ValidatedField
                 label={translate('shoppingApp.person.interests')}
                 id="person-interests"
@@ -144,7 +131,7 @@ export const PersonUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 {items
                   ? items.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.name}
+                        {otherEntity.id}
                       </option>
                     ))
                   : null}
@@ -161,7 +148,24 @@ export const PersonUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 {shoppingGroups
                   ? shoppingGroups.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.name}
+                        {otherEntity.id}
+                      </option>
+                    ))
+                  : null}
+              </ValidatedField>
+              <ValidatedField
+                label={translate('shoppingApp.person.sells')}
+                id="person-sells"
+                data-cy="sells"
+                type="select"
+                multiple
+                name="sells"
+              >
+                <option value="" key="0" />
+                {items
+                  ? items.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.id}
                       </option>
                     ))
                   : null}

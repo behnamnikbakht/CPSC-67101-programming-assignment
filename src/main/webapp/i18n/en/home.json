@@ -4,7 +4,6 @@
     "subtitle": "This is the shopping store",
     "logged": {
       "message": "You are logged in as user \"{{username}}\"."
-    },
-    "like": "If you have any question please send an email to me"
+    }
   }
 }

@@ -18,14 +18,13 @@
         "title": "Person"
       },
       "id": "ID",
-      "username": "Username",
-      "name": "Name",
-      "role": "Role",
-      "createdAt": "Created At",
+      "person": "Person",
       "shoppingGroup": "Shopping Group",
       "item": "Item",
       "interests": "Interests",
-      "subscriptions": "Subscriptions"
+      "subscriptions": "Subscriptions",
+      "sells": "Sells",
+      "fullname": "Fullname"
     }
   }
 }

@@ -49,17 +49,17 @@ public class Item implements Serializable {
     private ShoppingGroup group;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "shoppingGroups", "items", "interests", "subscriptions", "sells" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "person", "shoppingGroups", "items", "interests", "subscriptions", "sells" }, allowSetters = true)
     private Person owner;
 
     @ManyToMany(mappedBy = "interests")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "shoppingGroups", "items", "interests", "subscriptions", "sells" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "person", "shoppingGroups", "items", "interests", "subscriptions", "sells" }, allowSetters = true)
     private Set<Person> interestedPersons = new HashSet<>();
 
     @ManyToMany(mappedBy = "sells")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "shoppingGroups", "items", "interests", "subscriptions", "sells" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "person", "shoppingGroups", "items", "interests", "subscriptions", "sells" }, allowSetters = true)
     private Set<Person> sellerPersons = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -205,10 +205,10 @@ public class Item implements Serializable {
 
     public void setSellerPersons(Set<Person> people) {
         if (this.sellerPersons != null) {
-            this.sellerPersons.forEach(i -> i.removeSeller(this));
+            this.sellerPersons.forEach(i -> i.removeSells(this));
         }
         if (people != null) {
-            people.forEach(i -> i.addSeller(this));
+            people.forEach(i -> i.addSells(this));
         }
         this.sellerPersons = people;
     }

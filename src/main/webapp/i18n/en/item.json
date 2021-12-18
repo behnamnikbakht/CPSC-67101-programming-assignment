@@ -25,7 +25,8 @@
       "state": "State",
       "group": "Group",
       "owner": "Owner",
-      "interestedPersons": "Interested Persons"
+      "interestedPersons": "Interested Persons",
+      "sellerPersons": "Seller Persons"
     }
   }
 }

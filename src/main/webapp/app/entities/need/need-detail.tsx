@@ -54,7 +54,7 @@ export const NeedDetail = (props: RouteComponentProps<{ id: string }>) => {
           <dt>
             <Translate contentKey="shoppingApp.need.item">Item</Translate>
           </dt>
-          <dd>{needEntity.item ? needEntity.item.id : ''}</dd>
+          <dd>{needEntity.item ? needEntity.item.name : ''}</dd>
         </dl>
         <Button tag={Link} to="/need" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

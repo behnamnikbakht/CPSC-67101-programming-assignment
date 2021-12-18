@@ -64,7 +64,6 @@ export const ShoppingGroupUpdate = (props: RouteComponentProps<{ id: string }>) 
     isNew
       ? {
           createdAt: displayDefaultDateTime(),
-          createdBy: account?.id,
       }
       : {
           ...shoppingGroupEntity,
@@ -129,7 +128,7 @@ export const ShoppingGroupUpdate = (props: RouteComponentProps<{ id: string }>) 
                 {people
                   ? people.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.name}
+                        {otherEntity.person.login}
                       </option>
                     ))
                   : null}

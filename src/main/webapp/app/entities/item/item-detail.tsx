@@ -62,7 +62,7 @@ export const ItemDetail = (props: RouteComponentProps<{ id: string }>) => {
           <dt>
             <Translate contentKey="shoppingApp.item.group">Group</Translate>
           </dt>
-          <dd>{itemEntity.group ? itemEntity.group.id : ''}</dd>
+          <dd>{itemEntity.group ? itemEntity.group.name : ''}</dd>
           <dt>
             <Translate contentKey="shoppingApp.item.owner">Owner</Translate>
           </dt>

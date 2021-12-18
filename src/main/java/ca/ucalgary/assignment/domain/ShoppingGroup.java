@@ -35,16 +35,16 @@ public class ShoppingGroup implements Serializable {
 
     @OneToMany(mappedBy = "group")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "group", "owner", "interestedPersons" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "group", "owner", "interestedPersons", "sellerPersons" }, allowSetters = true)
     private Set<Item> items = new HashSet<>();
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "shoppingGroups", "items", "interests", "subscriptions" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "person", "shoppingGroups", "items", "interests", "subscriptions", "sells" }, allowSetters = true)
     private Person createdBy;
 
     @ManyToMany(mappedBy = "subscriptions")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "shoppingGroups", "items", "interests", "subscriptions" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "person", "shoppingGroups", "items", "interests", "subscriptions", "sells" }, allowSetters = true)
     private Set<Person> subscribedPersons = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

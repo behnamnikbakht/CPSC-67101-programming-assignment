@@ -1,9 +1,9 @@
-
 entity Person {
-	username String required
-    name String
-    role PersonRole
-    createdAt Instant required
+
+}
+
+relationship OneToOne {
+  Person{person} to User
 }
 
 entity ShoppingGroup {
@@ -25,11 +25,6 @@ entity Item {
     state	ItemState
 }
 
-enum PersonRole {
-  ADMIN
-  USER
-}
-
 enum ItemState {
   AVAILABLE
   NOT_AVAILABLE
@@ -49,7 +44,8 @@ relationship ManyToOne {
 
 relationship ManyToMany {
 	Person{interests} to Item{interestedPersons}
-    Person{subscriptions} to ShoppingGroup{subscribedPersons}
+	Person{subscriptions} to ShoppingGroup{subscribedPersons}
+	Person{sells} to Item{sellerPersons}
 }
 
 
