@@ -18,6 +18,8 @@ import shoppingGroup from 'app/entities/shopping-group/shopping-group.reducer';
 // prettier-ignore
 import need from 'app/entities/need/need.reducer';
 // prettier-ignore
+import sell from 'app/entities/sell/sell.reducer';
+// prettier-ignore
 import item from 'app/entities/item/item.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
@@ -35,6 +37,7 @@ const rootReducer = {
   person,
   shoppingGroup,
   need,
+  sell,
   item,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   loadingBar,

@@ -3,22 +3,27 @@ entity Person {
 }
 
 relationship OneToOne {
-  Person{person} to User
+    Person{person} to User
 }
 
 entity ShoppingGroup {
-	name String required
+    name String required
     createdAt Instant required
 }
 
 entity Need {
-	createdAt Instant required
+    createdAt Instant required
     quantity Integer required
     deadline Instant
 }
 
+entity Sell {
+    createdAt Instant required
+    quantity Integer required
+}
+
 entity Item {
-	name String required
+    name String required
     price Integer
     createdAt Instant required
     picture String
@@ -32,14 +37,16 @@ enum ItemState {
 }
 
 relationship OneToMany {
-	ShoppingGroup to Item{group}
+    ShoppingGroup to Item{group}
     Person to ShoppingGroup{createdBy}
     Person to Item{owner}
 }
 
 relationship ManyToOne {
-	Need{person} to Person
+    Need{person} to Person
     Need{item} to Item
+    Sell{person} to Person
+    Sell{item} to Item
 }
 
 relationship ManyToMany {
@@ -49,6 +56,6 @@ relationship ManyToMany {
 }
 
 
-paginate Person, ShoppingGroup, Need, Item with pagination
+paginate Person, ShoppingGroup, Need, Sell, Item with pagination
 
 service all with serviceImpl

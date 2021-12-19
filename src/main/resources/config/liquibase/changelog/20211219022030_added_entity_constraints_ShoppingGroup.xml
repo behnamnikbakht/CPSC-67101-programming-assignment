@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity ShoppingGroup.
     -->
-    <changeSet id="20211127053931-2" author="jhipster">
+    <changeSet id="20211219022030-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="created_by_id"
                                  baseTableName="shopping_group"

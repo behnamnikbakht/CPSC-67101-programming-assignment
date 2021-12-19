@@ -8,25 +8,25 @@ import { IPerson } from 'app/shared/model/person.model';
 import { getEntities as getPeople } from 'app/entities/person/person.reducer';
 import { IItem } from 'app/shared/model/item.model';
 import { getEntities as getItems } from 'app/entities/item/item.reducer';
-import { getEntity, updateEntity, createEntity, reset } from './need.reducer';
-import { INeed } from 'app/shared/model/need.model';
+import { getEntity, updateEntity, createEntity, reset } from './sell.reducer';
+import { ISell } from 'app/shared/model/sell.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const NeedUpdate = (props: RouteComponentProps<{ id: string }>) => {
+export const SellUpdate = (props: RouteComponentProps<{ id: string }>) => {
   const dispatch = useAppDispatch();
 
   const [isNew] = useState(!props.match.params || !props.match.params.id);
 
   const people = useAppSelector(state => state.person.entities);
   const items = useAppSelector(state => state.item.entities);
-  const needEntity = useAppSelector(state => state.need.entity);
-  const loading = useAppSelector(state => state.need.loading);
-  const updating = useAppSelector(state => state.need.updating);
-  const updateSuccess = useAppSelector(state => state.need.updateSuccess);
+  const sellEntity = useAppSelector(state => state.sell.entity);
+  const loading = useAppSelector(state => state.sell.loading);
+  const updating = useAppSelector(state => state.sell.updating);
+  const updateSuccess = useAppSelector(state => state.sell.updateSuccess);
   const handleClose = () => {
-    props.history.push('/need' + props.location.search);
+    props.history.push('/sell' + props.location.search);
   };
 
   useEffect(() => {
@@ -48,10 +48,9 @@ export const NeedUpdate = (props: RouteComponentProps<{ id: string }>) => {
 
   const saveEntity = values => {
     values.createdAt = convertDateTimeToServer(values.createdAt);
-    values.deadline = convertDateTimeToServer(values.deadline);
 
     const entity = {
-      ...needEntity,
+      ...sellEntity,
       ...values,
       person: people.find(it => it.id.toString() === values.person.toString()),
       item: items.find(it => it.id.toString() === values.item.toString()),
@@ -64,27 +63,24 @@ export const NeedUpdate = (props: RouteComponentProps<{ id: string }>) => {
     }
   };
 
-  const account = useAppSelector(state => state.authentication.account);
   const defaultValues = () =>
     isNew
       ? {
           createdAt: displayDefaultDateTime(),
-          deadline: displayDefaultDateTime(),
         }
       : {
-          ...needEntity,
-          createdAt: convertDateTimeFromServer(needEntity.createdAt),
-          deadline: convertDateTimeFromServer(needEntity.deadline),
-          person: needEntity?.person?.id,
-          item: needEntity?.item?.id,
+          ...sellEntity,
+          createdAt: convertDateTimeFromServer(sellEntity.createdAt),
+          person: sellEntity?.person?.id,
+          item: sellEntity?.item?.id,
         };
 
   return (
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="shoppingApp.need.home.createOrEditLabel" data-cy="NeedCreateUpdateHeading">
-            <Translate contentKey="shoppingApp.need.home.createOrEditLabel">Create or edit a Need</Translate>
+          <h2 id="shoppingApp.sell.home.createOrEditLabel" data-cy="SellCreateUpdateHeading">
+            <Translate contentKey="shoppingApp.sell.home.createOrEditLabel">Create or edit a Sell</Translate>
           </h2>
         </Col>
       </Row>
@@ -99,14 +95,14 @@ export const NeedUpdate = (props: RouteComponentProps<{ id: string }>) => {
                   name="id"
                   required
                   readOnly
-                  id="need-id"
+                  id="sell-id"
                   label={translate('global.field.id')}
                   validate={{ required: true }}
                 />
               ) : null}
               <ValidatedField
-                label={translate('shoppingApp.need.createdAt')}
-                id="need-createdAt"
+                label={translate('shoppingApp.sell.createdAt')}
+                id="sell-createdAt"
                 name="createdAt"
                 data-cy="createdAt"
                 type="datetime-local"
@@ -116,8 +112,8 @@ export const NeedUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 }}
               />
               <ValidatedField
-                label={translate('shoppingApp.need.quantity')}
-                id="need-quantity"
+                label={translate('shoppingApp.sell.quantity')}
+                id="sell-quantity"
                 name="quantity"
                 data-cy="quantity"
                 type="text"
@@ -126,15 +122,7 @@ export const NeedUpdate = (props: RouteComponentProps<{ id: string }>) => {
                   validate: v => isNumber(v) || translate('entity.validation.number'),
                 }}
               />
-              <ValidatedField
-                label={translate('shoppingApp.need.deadline')}
-                id="need-deadline"
-                name="deadline"
-                data-cy="deadline"
-                type="datetime-local"
-                placeholder="YYYY-MM-DD HH:mm"
-              />
-              <ValidatedField id="need-person" name="person" data-cy="person" label={translate('shoppingApp.need.person')} type="select">
+              <ValidatedField id="sell-person" name="person" data-cy="person" label={translate('shoppingApp.sell.person')} type="select">
                 <option value="" key="0" />
                 {people
                   ? people.map(otherEntity => (
@@ -144,7 +132,7 @@ export const NeedUpdate = (props: RouteComponentProps<{ id: string }>) => {
                     ))
                   : null}
               </ValidatedField>
-              <ValidatedField id="need-item" name="item" data-cy="item" label={translate('shoppingApp.need.item')} type="select">
+              <ValidatedField id="sell-item" name="item" data-cy="item" label={translate('shoppingApp.sell.item')} type="select">
                 <option value="" key="0" />
                 {items
                   ? items.map(otherEntity => (
@@ -154,7 +142,7 @@ export const NeedUpdate = (props: RouteComponentProps<{ id: string }>) => {
                     ))
                   : null}
               </ValidatedField>
-              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/need" replace color="info">
+              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/sell" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
                 <span className="d-none d-md-inline">
@@ -175,4 +163,4 @@ export const NeedUpdate = (props: RouteComponentProps<{ id: string }>) => {
   );
 };
 
-export default NeedUpdate;
+export default SellUpdate;

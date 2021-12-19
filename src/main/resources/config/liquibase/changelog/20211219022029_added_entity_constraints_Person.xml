@@ -6,7 +6,13 @@
     <!--
         Added the constraints for entity Person.
     -->
-    <changeSet id="20211127053930-2" author="jhipster">
+    <changeSet id="20211219022029-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="person_id"
+                                 baseTableName="person"
+                                 constraintName="fk_person__person_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
 
         <addForeignKeyConstraint baseColumnNames="person_id"
                                  baseTableName="rel_person__interests"
@@ -17,18 +23,6 @@
         <addForeignKeyConstraint baseColumnNames="interests_id"
                                  baseTableName="rel_person__interests"
                                  constraintName="fk_rel_person__interests__interests_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="item"/>
-
-        <addForeignKeyConstraint baseColumnNames="person_id"
-                                 baseTableName="rel_person__sells"
-                                 constraintName="rel_person__sells__person_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="person"/>
-
-        <addForeignKeyConstraint baseColumnNames="sells_id"
-                                 baseTableName="rel_person__sells"
-                                 constraintName="rel_person__sells__sells_id"
                                  referencedColumnNames="id"
                                  referencedTableName="item"/>
 
@@ -44,5 +38,16 @@
                                  referencedColumnNames="id"
                                  referencedTableName="shopping_group"/>
 
+        <addForeignKeyConstraint baseColumnNames="person_id"
+                                 baseTableName="rel_person__sells"
+                                 constraintName="fk_rel_person__sells__person_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="person"/>
+
+        <addForeignKeyConstraint baseColumnNames="sells_id"
+                                 baseTableName="rel_person__sells"
+                                 constraintName="fk_rel_person__sells__sells_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="item"/>
     </changeSet>
 </databaseChangeLog>

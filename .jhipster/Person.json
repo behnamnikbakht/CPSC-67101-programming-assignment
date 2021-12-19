@@ -1,0 +1,56 @@
+{
+  "name": "Person",
+  "fields": [],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "person",
+      "relationshipName": "person",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "shoppingGroup",
+      "otherEntityRelationshipName": "createdBy",
+      "relationshipName": "shoppingGroup"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "item",
+      "otherEntityRelationshipName": "owner",
+      "relationshipName": "item"
+    },
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "item",
+      "otherEntityRelationshipName": "interestedPersons",
+      "relationshipName": "interests",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "shoppingGroup",
+      "otherEntityRelationshipName": "subscribedPersons",
+      "relationshipName": "subscriptions",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "item",
+      "otherEntityRelationshipName": "sellerPersons",
+      "relationshipName": "sells",
+      "ownerSide": true
+    }
+  ],
+  "entityTableName": "person",
+  "dto": "no",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20211219022029"
+}

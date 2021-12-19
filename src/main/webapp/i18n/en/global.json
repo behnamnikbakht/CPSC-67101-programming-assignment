@@ -10,6 +10,7 @@
         "person": "Person",
         "shoppingGroup": "Shopping Group",
         "need": "Need",
+        "sell": "Sell",
         "item": "Item",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
@@ -141,5 +142,5 @@
       "not.image": "File was expected to be an image but was found to be \"{{ fileType }}\""
     }
   },
-  "footer": ""
+  "footer": "This is your footer"
 }

@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity Item.
     -->
-    <changeSet id="20211127053933-2" author="jhipster">
+    <changeSet id="20211219022033-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="group_id"
                                  baseTableName="item"

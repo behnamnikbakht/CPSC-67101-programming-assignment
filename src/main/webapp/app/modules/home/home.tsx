@@ -53,7 +53,7 @@ export const Home = () => {
             </Alert>
           </div>
         )}
-        <Translate contentKey="home.like">If you have any question please send an email to me</Translate>{' '}
+        If you have any question please send an email to me
         <a href="mailto:behnam.nikbakhtbideh@ucalgary.ca" target="_blank" rel="noopener noreferrer">
           Behnam Nikbakhtbideh
         </a>
