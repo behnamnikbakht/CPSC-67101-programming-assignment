@@ -44,7 +44,7 @@ export const PersonDetail = (props: RouteComponentProps<{ id: string }>) => {
             {personEntity.interests
               ? personEntity.interests.map((val, i) => (
                   <span key={val.id}>
-                    <a>{val.id}</a>
+                    <a>{val.name}</a>
                     {personEntity.interests && i === personEntity.interests.length - 1 ? '' : ', '}
                   </span>
                 ))
@@ -57,7 +57,7 @@ export const PersonDetail = (props: RouteComponentProps<{ id: string }>) => {
             {personEntity.subscriptions
               ? personEntity.subscriptions.map((val, i) => (
                   <span key={val.id}>
-                    <a>{val.id}</a>
+                    <a>{val.name}</a>
                     {personEntity.subscriptions && i === personEntity.subscriptions.length - 1 ? '' : ', '}
                   </span>
                 ))
@@ -70,7 +70,7 @@ export const PersonDetail = (props: RouteComponentProps<{ id: string }>) => {
             {personEntity.sells
               ? personEntity.sells.map((val, i) => (
                   <span key={val.id}>
-                    <a>{val.id}</a>
+                    <a>{val.name}</a>
                     {personEntity.sells && i === personEntity.sells.length - 1 ? '' : ', '}
                   </span>
                 ))
