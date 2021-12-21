@@ -1,29 +1,53 @@
-# shopping
+# CPSC-67101-programming-assignment
 
-This application was generated using JHipster 7.4.1, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v7.4.1](https://www.jhipster.tech/documentation-archive/v7.4.1).
+This is the Programming Assignment of the Database Course by Behnam Nikbakhtbideh.
 
-## Project Structure
+This project is written in Java (backend) and ReactJS (FrontEnd).
 
-Node is required for generation and recommended for development. `package.json` is always generated for a better development experience with prettier, commit hooks, scripts and so on.
+## Structure
 
-In the project root, JHipster generates configuration files for tools like git, prettier, eslint, husk, and others that are well known and you can find references in the web.
+The project is based on the model in [jhipster-jdl.jdl](jhipster-jdl.jdl) that is in [jdl](https://www.jhipster.tech/jdl/intro) format.
 
-`/src/*` structure follows default Java structure.
+The backend side is implemented in Spring Boot (Java) that is based on the MySql.
 
-- `.yo-rc.json` - Yeoman configuration file
-  JHipster configuration is stored in this file at `generator-jhipster` key. You may find `generator-jhipster-*` for specific blueprints configuration.
-- `.yo-resolve` (optional) - Yeoman conflict resolver
-  Allows to use a specific action when conflicts are found skipping prompts for files that matches a pattern. Each line should match `[pattern] [action]` with pattern been a [Minimatch](https://github.com/isaacs/minimatch#minimatch) pattern and action been one of skip (default if ommited) or force. Lines starting with `#` are considered comments and are ignored.
-- `.jhipster/*.json` - JHipster entity configuration files
-- `npmw` - wrapper to use locally installed npm.
-  JHipster installs Node and npm locally using the build tool by default. This wrapper makes sure npm is installed locally and uses it avoiding some differences different versions can cause. By using `./npmw` instead of the traditional `npm` you can configure a Node-less environment to develop your application.
-- `/src/main/docker` - Docker configurations for the application and services that the application depends on
+This architecture has some benefits including:
 
-## Development
+1. Having a multi layer architecture by Spring has many benefits itself. For example, Staying independent from database by using Spring Data. For example, I created a version of
+   this application in MongoDB before, and the only difference was in domain and repository layers. Meaning that
+   other layers including service, dto, and rest are completely independent of the persistence layer.
+2. Using AOP that brings lots of features for debugging, logging, and security.
+3. Enahnce maintainability, reduce complexity, and increase extensibility by using IoC.
+4. Having different environments for development, production and tls.
+5. Using liquibase for database change management and migration.
+6. Achieving most of the aspects of [12 factor principles](https://dzone.com/articles/12-factor-app-principles-and-cloud-native-microser) of microservice architecture by:
+   - Codebase: git + maven
+   - Config: YAML
+   - Build stages: needs a pipeline on the git that needs a dedicated host.
+   - Processes & Concurrency: can run multiple instances of the server independently.
+   - Port Binding: there is a port in configuration file for each instance.
+   - Dev/prod parity: the only difference is in config.
+   - Logs: logback
+   - Admin processes: monitoring of the server by logstash, prometheus, and grafana.
+7. [OpenAPI Specification](https://swagger.io/specification/)
+8. Authentication and Authorization layer by Spring based on [JWT](https://jwt.io/)
+9. Service oriented architecture based on REST api.
+
+## Requirements
+
+To run this project, you need to install them before.
+
+Also a python library is used for OCR. To install, run these commands (ubuntu):
+
+```shell
+sudo apt install tesseract-ocr
+sudo apt install libtesseract-dev
+```
+
+## Build
 
 Before you can build this project, you must install and configure the following dependencies on your machine:
 
-1. [Node.js][]: We use Node to run a development web server and build the project.
+1. [Node.js][]: It is required to build the project.
    Depending on your system, you can install Node either from source or as a pre-packaged bundle.
 
 After installing Node, you should be able to run the following command to install development tools.
@@ -33,9 +57,9 @@ You will only need to run this command when dependencies change in [package.json
 npm install
 ```
 
-We use npm scripts and [Webpack][] as our build system.
+I used npm scripts and [Webpack][] as build system.
 
-Run the following commands in two separate terminals to create a blissful development experience where your browser
+Run the following commands in two separate terminals to create a development where your browser
 auto-refreshes when files change on your hard drive.
 
 ```
@@ -49,51 +73,6 @@ Add the `help` flag on any command to see how you can use it. For example, `npm 
 
 The `npm run` command will list all of the scripts available to run for this project.
 
-### PWA Support
-
-JHipster ships with PWA (Progressive Web App) support, and it's turned off by default. One of the main components of a PWA is a service worker.
-
-The service worker initialization code is commented out by default. To enable it, uncomment the following code in `src/main/webapp/index.html`:
-
-```html
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./service-worker.js').then(function () {
-      console.log('Service Worker Registered');
-    });
-  }
-</script>
-```
-
-Note: [Workbox](https://developers.google.com/web/tools/workbox/) powers JHipster's service worker. It dynamically generates the `service-worker.js` file.
-
-### Managing dependencies
-
-For example, to add [Leaflet][] library as a runtime dependency of your application, you would run following command:
-
-```
-npm install --save --save-exact leaflet
-```
-
-To benefit from TypeScript type definitions from [DefinitelyTyped][] repository in development, you would run following command:
-
-```
-npm install --save-dev --save-exact @types/leaflet
-```
-
-Then you would import the JS and CSS files specified in library's installation instructions so that [Webpack][] knows about them:
-Note: There are still a few other things remaining to do for Leaflet that we won't detail here.
-
-For further instructions on how to develop with JHipster, have a look at [Using JHipster in development][].
-
-### JHipster Control Center
-
-JHipster Control Center can help you manage and control your application(s). You can start a local control center server (accessible on http://localhost:7419) with:
-
-```
-docker-compose -f src/main/docker/jhipster-control-center.yml up
-```
-
 ## Building for production
 
 ### Packaging as jar
@@ -104,8 +83,14 @@ To build the final jar and optimize the shopping application for production, run
 ./mvnw -Pprod clean verify
 ```
 
-This will concatenate and minify the client CSS and JavaScript files. It will also modify `index.html` so it references these new files.
-To ensure everything worked, run:
+or:
+
+```
+mvn clean package -DskipTests
+```
+
+This will concatenate and minify the client CSS and JavaScript files.
+To start the server, run this command:
 
 ```
 java -jar target/*.jar
@@ -113,103 +98,6 @@ java -jar target/*.jar
 
 Then navigate to [http://localhost:8080](http://localhost:8080) in your browser.
 
-Refer to [Using JHipster in production][] for more details.
-
-### Packaging as war
-
-To package your application as a war in order to deploy it to an application server, run:
-
-```
-./mvnw -Pprod,war clean verify
-```
-
-## Testing
-
-To launch your application's tests, run:
-
-```
-./mvnw verify
-```
-
-### Client tests
-
-Unit tests are run by [Jest][]. They're located in [src/test/javascript/](src/test/javascript/) and can be run with:
-
-```
-npm test
-```
-
-For more information, refer to the [Running tests page][].
-
-### Code quality
-
-Sonar is used to analyse code quality. You can start a local Sonar server (accessible on http://localhost:9001) with:
-
-```
-docker-compose -f src/main/docker/sonar.yml up -d
-```
-
-Note: we have turned off authentication in [src/main/docker/sonar.yml](src/main/docker/sonar.yml) for out of the box experience while trying out SonarQube, for real use cases turn it back on.
-
-You can run a Sonar analysis with using the [sonar-scanner](https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner) or by using the maven plugin.
-
-Then, run a Sonar analysis:
-
-```
-./mvnw -Pprod clean verify sonar:sonar
-```
-
-If you need to re-run the Sonar phase, please be sure to specify at least the `initialize` phase since Sonar properties are loaded from the sonar-project.properties file.
-
-```
-./mvnw initialize sonar:sonar
-```
-
-For more information, refer to the [Code quality page][].
-
-## Using Docker to simplify development (optional)
-
-You can use Docker to improve your JHipster development experience. A number of docker-compose configuration are available in the [src/main/docker](src/main/docker) folder to launch required third party services.
-
-For example, to start a mysql database in a docker container, run:
-
-```
-docker-compose -f src/main/docker/mysql.yml up -d
-```
-
-To stop it and remove the container, run:
-
-```
-docker-compose -f src/main/docker/mysql.yml down
-```
-
-You can also fully dockerize your application and all the services that it depends on.
-To achieve this, first build a docker image of your app by running:
-
-```
-./mvnw -Pprod verify jib:dockerBuild
-```
-
-Then run:
-
-```
-docker-compose -f src/main/docker/app.yml up -d
-```
-
-For more information refer to [Using Docker and Docker-Compose][], this page also contains information on the docker-compose sub-generator (`jhipster docker-compose`), which is able to generate docker configurations for one or several JHipster applications.
-
-## Continuous Integration (optional)
-
-To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
-
-[jhipster homepage and latest documentation]: https://www.jhipster.tech
-[jhipster 7.4.1 archive]: https://www.jhipster.tech/documentation-archive/v7.4.1
-[using jhipster in development]: https://www.jhipster.tech/documentation-archive/v7.4.1/development/
-[using docker and docker-compose]: https://www.jhipster.tech/documentation-archive/v7.4.1/docker-compose
-[using jhipster in production]: https://www.jhipster.tech/documentation-archive/v7.4.1/production/
-[running tests page]: https://www.jhipster.tech/documentation-archive/v7.4.1/running-tests/
-[code quality page]: https://www.jhipster.tech/documentation-archive/v7.4.1/code-quality/
-[setting up continuous integration]: https://www.jhipster.tech/documentation-archive/v7.4.1/setting-up-ci/
 [node.js]: https://nodejs.org/
 [npm]: https://www.npmjs.com/
 [webpack]: https://webpack.github.io/
