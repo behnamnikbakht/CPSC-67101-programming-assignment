@@ -29,4 +29,7 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
         "select person from Person person left join fetch person.interests left join fetch person.subscriptions left join fetch person.sells where person.id =:id"
     )
     Optional<Person> findOneWithEagerRelationships(@Param("id") Long id);
+
+    @Query("select person from Person person where person.person.id =:userId")
+    Optional<Person> findByUserId(@Param("userId") Long userId);
 }

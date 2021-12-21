@@ -3,6 +3,7 @@ package ca.ucalgary.assignment.service.impl;
 import ca.ucalgary.assignment.domain.Sell;
 import ca.ucalgary.assignment.repository.SellRepository;
 import ca.ucalgary.assignment.service.SellService;
+import ca.ucalgary.assignment.web.rest.NotifierApi;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,9 @@ public class SellServiceImpl implements SellService {
     @Override
     public Sell save(Sell sell) {
         log.debug("Request to save Sell : {}", sell);
-        return sellRepository.save(sell);
+        Sell sold = sellRepository.save(sell);
+        NotifierApi.INSTANCE.afterAnySell(sold);
+        return sold;
     }
 
     @Override

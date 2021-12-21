@@ -141,14 +141,23 @@ public class Need implements Serializable {
         return getClass().hashCode();
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
-        return "Need{" +
-            "id=" + getId() +
-            ", createdAt='" + getCreatedAt() + "'" +
-            ", quantity=" + getQuantity() +
-            ", deadline='" + getDeadline() + "'" +
-            "}";
+        return (
+            "Need{" +
+            "id=" +
+            id +
+            ", createdAt=" +
+            createdAt +
+            ", quantity=" +
+            quantity +
+            ", deadline=" +
+            deadline +
+            ", person=" +
+            person +
+            ", item=" +
+            item +
+            '}'
+        );
     }
 }

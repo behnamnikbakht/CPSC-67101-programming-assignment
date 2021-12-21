@@ -24,6 +24,7 @@
     }
   },
   "rules": {
+    "no-console": "off",
     "@typescript-eslint/member-ordering": [
       "error",
       {
@@ -62,7 +63,6 @@
     "no-labels": "error",
     "no-caller": "error",
     "no-bitwise": "error",
-    "no-console": ["error", { "allow": ["warn", "error"] }],
     "no-new-wrappers": "error",
     "no-eval": "error",
     "no-new": "error",

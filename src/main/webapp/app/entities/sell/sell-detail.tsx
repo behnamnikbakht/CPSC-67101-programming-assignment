@@ -48,7 +48,7 @@ export const SellDetail = (props: RouteComponentProps<{ id: string }>) => {
           <dt>
             <Translate contentKey="shoppingApp.sell.item">Item</Translate>
           </dt>
-          <dd>{sellEntity.item ? sellEntity.item.id : ''}</dd>
+          <dd>{sellEntity.item ? sellEntity.item.name : ''}</dd>
         </dl>
         <Button tag={Link} to="/sell" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

@@ -125,13 +125,8 @@ public class Sell implements Serializable {
         return getClass().hashCode();
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
-        return "Sell{" +
-            "id=" + getId() +
-            ", createdAt='" + getCreatedAt() + "'" +
-            ", quantity=" + getQuantity() +
-            "}";
+        return "Sell{" + "id=" + id + ", createdAt=" + createdAt + ", quantity=" + quantity + ", person=" + person + ", item=" + item + '}';
     }
 }
