@@ -1,16 +1,17 @@
 package ca.ucalgary.assignment.web.rest;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Base64;
 import org.apache.commons.io.FileUtils;
 
 public class ImageUtils {
 
     public static String toBase64(String filePath) throws IOException {
-        byte[] fileContent = FileUtils.readFileToByteArray(new File(filePath));
+        byte[] fileContent = Files.readAllBytes(Paths.get(filePath));
         String encodedString = Base64.getEncoder().encodeToString(fileContent);
         return encodedString;
     }
