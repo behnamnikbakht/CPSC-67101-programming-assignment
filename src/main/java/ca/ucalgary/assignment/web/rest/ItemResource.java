@@ -4,6 +4,7 @@ import ca.ucalgary.assignment.domain.Item;
 import ca.ucalgary.assignment.repository.ItemRepository;
 import ca.ucalgary.assignment.service.ItemService;
 import ca.ucalgary.assignment.web.rest.errors.BadRequestAlertException;
+import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -60,6 +61,26 @@ public class ItemResource {
         log.debug("REST request to save Item : {}", item);
         if (item.getId() != null) {
             throw new BadRequestAlertException("A new item cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        if (item.getPicture() != null) {
+            File tmpFile = null;
+            try {
+                tmpFile = File.createTempFile("tmp", "ocr");
+                ImageUtils.fromBase64(item.getPicture(), tmpFile);
+                String result = ImageUtils.ocr(tmpFile.getAbsolutePath());
+                for (String line : result.split("\n")) {
+                    if (line.startsWith("AMOUNT ")) {
+                        Double amount = Double.parseDouble(line.split(" ")[1]);
+                        log.info("ocr amount = " + amount);
+                        item.setPrice(amount.intValue());
+                    }
+                }
+            } catch (Exception ex) {
+                if (tmpFile != null && tmpFile.exists()) {
+                    tmpFile.delete();
+                }
+                log.error("cannot extract price from picture", ex);
+            }
         }
         Item result = itemService.save(item);
         return ResponseEntity
